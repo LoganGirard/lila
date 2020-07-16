@@ -35,7 +35,7 @@ final class PairingRepo(coll: Coll)(implicit ec: scala.concurrent.ExecutionConte
   ): Fu[Pairing.LastOpponents] =
     userIds.nonEmpty.?? {
       val nbUsers = userIds.size
-      val s = userIds.toSet
+      val s       = userIds.toSet
       coll
         .find(
           selectTour(tourId) ++ $doc("u" $in userIds),
@@ -48,8 +48,8 @@ final class PairingRepo(coll: Coll)(implicit ec: scala.concurrent.ExecutionConte
         .mapConcat(_.getAsOpt[List[User.ID]]("u").toList)
         .scan(Map.empty[User.ID, User.ID]) {
           case (acc, List(u1, u2)) =>
-            val b1 = s.contains(u1)
-            val b2 = !b1 || s.contains(u2)
+            val b1   = s.contains(u1)
+            val b2   = !b1 || s.contains(u2)
             val acc1 = if (!b1 || acc.contains(u1)) acc else acc.updated(u1, u2)
             if (!b2 || acc.contains(u2)) acc1 else acc1.updated(u2, u1)
         }

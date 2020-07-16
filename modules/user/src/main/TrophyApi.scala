@@ -69,6 +69,6 @@ final class TrophyApi(
           "kind" -> kindKey,
           "url"  -> trophyUrl,
           "date" -> DateTime.now
-      )
-    ) void
+        )
+      ) void
 }
